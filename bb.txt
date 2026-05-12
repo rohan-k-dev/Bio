@@ -1,0 +1,252 @@
+from Bio.Seq import Seq
+dna_sequenece=Seq("ATCATACTATATACTCCTC")
+
+sliced_sequences=dna_sequenece[3:11]
+print("sliced_sequences:",sliced_sequences)
+
+another_sequence=Seq("GCTCAGT")
+concatenated_sequence=sliced_sequences+another_sequence
+print("concatenated_sequence:",concatenated_sequence)
+
+rna_sequence=concatenated_sequence.transcribe()
+print("rna_sequence:",rna_sequence)
+
+protein_sequence=rna_sequence.translate()   
+print("protein_sequence:",protein_sequence)
+
+
+from Bio import SeqIO
+
+def read_fasta(file_path):
+    for record in SeqIO.parse(file_path, "fasta"):
+        print(f"Description: {record.description}")
+        print(f"Sequence: {record.seq}")
+        print()
+
+fasta_file="example.fasta"
+read_fasta(fasta_file)
+
+
+
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio import SeqIO
+
+# Create a sequence record
+record = SeqRecord(
+    Seq("ATGCGTACGTAGCTAGCTAG"),
+    id="seq1",
+    name="Example_Gene",
+    description="Example gene sequence",
+    annotations={
+        "molecule_type": "DNA",
+        "gene": "ExampleGene",
+        "function": "Hypothetical protein"
+    }
+)
+
+# Write to GenBank file
+SeqIO.write(record, "genbank.gb", "genbank")
+
+# Read and print the file content
+with open("genbank.gb", "r") as file:
+    print(file.read())
+
+
+from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
+
+def convert_fasta_to_genbank(fasta_file, genbank_file):
+    records = []
+
+    for record in SeqIO.parse(fasta_file, "fasta"):
+        genbank_record = SeqRecord(
+            record.seq,
+            id=record.id,
+            name="Example_Gene",
+            description=record.description,
+            annotations={
+                "molecule_type": "DNA",
+                "gene": "ExampleGene",
+                "function": "Hypothetical protein"
+            }
+        )
+
+        records.append(genbank_record)
+
+    # Write to GenBank file
+    SeqIO.write(records, genbank_file, "genbank")
+
+
+# Call the function
+convert_fasta_to_genbank("example.fasta", "example_output.gb")
+
+# Print file content
+with open("example_output.gb", "r") as file:
+    print(file.read())
+
+
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.SeqFeature import SeqFeature, FeatureLocation
+
+# Create SeqRecord
+record = SeqRecord(
+    Seq("ATGCGTACGTAGCTAGCTAG"),
+    id="seq1",
+    name="Example_Gene",
+    description="An example DNA sequence for gene annotation.",
+    annotations={"molecule_type": "DNA"}  # Required
+)
+
+# Add annotations
+record.annotations["gene"] = "ExampleGene"
+record.annotations["function"] = "Hypothetical protein"
+record.annotations["organism"] = "Synthetic organism"
+
+# Add feature (gene location)
+feature = SeqFeature(
+    FeatureLocation(0, 20),  # correct length
+    type="gene",
+    qualifiers={"gene": "ExampleGene"}
+)
+
+record.features.append(feature)
+
+# Print details
+print("ID:", record.id)
+print("Name:", record.name)
+print("Description:", record.description)
+print("Annotations:", record.annotations)
+print("Features:", record.features)
+
+
+from Bio import Entrez, SeqIO
+
+# Step 1: Always provide your email (required by NCBI)
+Entrez.email = "your_email@example.com"   # 🔴 replace with your email
+
+# Step 2: Fetch sequence from NCBI database
+handle = Entrez.efetch(
+    db="nucleotide",
+    id="NM_001301717",
+    rettype="gb",
+    retmode="text"
+)
+
+# Step 3: Read GenBank record
+record = SeqIO.read(handle, "genbank")
+handle.close()
+
+# Step 4: Print details
+print("Accession Number:", record.id)
+print("Description:", record.description)
+print("Organism:", record.annotations["organism"])
+print("Sequence:", record.seq)
+print("Length:", len(record.seq))
+print("Features:", record.features)
+
+
+
+from Bio.Align import PairwiseAligner
+
+# Define sequences
+seq1 = "AGTACACTGGT"
+seq2 = "AGTAGCTGGT"
+
+# Create aligner
+aligner = PairwiseAligner()
+
+# Perform alignment
+alignments = aligner.align(seq1, seq2)
+
+# Print best alignment
+print(alignments[0])
+
+# Print alignment score
+print("Alignment Score:", alignments[0].score)
+
+
+from Bio import AlignIO
+import subprocess
+
+# Write sequences to FASTA file
+with open("in.fasta", "w") as f:
+    f.write(""">s1
+ATGCGTACGTA
+>s2
+ATGCGTACGTC
+>s3
+ATGCGTACGAG
+""")
+
+# Run MUSCLE alignment
+subprocess.run(["muscle.exe", "-align", "in.fasta", "-output", "out.fasta"], check=True)
+
+# Read and print aligned sequences
+alignment = AlignIO.read("out.fasta", "fasta")
+print(alignment)
+
+
+from Bio import Phylo, AlignIO
+from Bio.Phylo.TreeConstruction import DistanceCalculator, DistanceTreeConstructor
+import io
+ 
+# Inline clustal alignment (no external file needed)
+clustal_data = """\
+CLUSTAL W multiple sequence alignment
+ 
+seq1      ATGCGTACGTA
+seq2      ATGCGTACGTC
+seq3      ATGCGTACGAG
+"""
+ 
+# Step 1: Load the sequence alignment
+alignment = AlignIO.read(io.StringIO(clustal_data), "clustal")
+ 
+# Step 2: Compute distance matrix (identity model)
+calculator = DistanceCalculator('identity')
+distance_matrix = calculator.get_distance(alignment)
+ 
+# Step 3: Build the phylogenetic tree using UPGMA
+constructor = DistanceTreeConstructor()
+tree = constructor.upgma(distance_matrix)
+ 
+# Step 4: Visualize the tree
+Phylo.draw_ascii(tree)
+
+
+
+from Bio import PDB
+
+# Download the PDB file automatically
+pdbl = PDB.PDBList()
+pdbl.retrieve_pdb_file("1TUP", pdir="pdb", obsolete=False)
+
+# Step 1: Create a PDB parser
+parser = PDB.MMCIFParser(QUIET=True)
+
+# Step 2: Fetch a protein structure from the PDB (using a known PDB ID)
+pdb_id = "1TUP"
+structure = parser.get_structure("protein", "pdb/1tup.cif")
+
+# Step 3: Visualize and manipulate the structure
+model = structure[0]  # Get the first model (if there are multiple)
+chain = model['A']    # Select chain 'A'
+
+# Step 4: Print out information about the selected chain
+print(f"Chain {chain.id}:")
+for residue in chain:
+    print(residue)
+
+# Step 5: Save the structure for visualization in an external tool
+io = PDB.PDBIO()
+io.set_structure(structure)
+io.save("output.pdb")
+
+
+
+
+
+
+
