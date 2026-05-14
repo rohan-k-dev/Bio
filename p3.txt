@@ -1,0 +1,179 @@
+# =========================================================
+# PROGRAM 3
+# Write DNA Sequence and Annotations to GenBank File
+# using BioPython
+# =========================================================
+
+# =========================================================
+# WHAT TO INSTALL
+# =========================================================
+
+# Open CMD / PowerShell / VS Code Terminal
+
+# Run:
+
+# pip install biopython
+
+# OR
+
+# py -m pip install biopython
+
+
+# =========================================================
+# HOW TO RUN
+# =========================================================
+
+# STEP 1:
+# Save this file as:
+
+# final_3.py
+
+# STEP 2:
+# Run using:
+
+# python final_3.py
+
+# OR
+
+# py final_3.py
+
+
+# =========================================================
+# PROGRAM DESCRIPTION
+# =========================================================
+
+# This program:
+# 1. Creates a DNA sequence
+# 2. Creates a SeqRecord object
+# 3. Adds annotations
+# 4. Writes data into GenBank (.gb) file
+# 5. Reads and displays GenBank file contents
+
+
+# =========================================================
+# IMPORT MODULES
+# =========================================================
+
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio import SeqIO
+
+
+# =========================================================
+# STEP 1 : CREATE DNA SEQUENCE
+# =========================================================
+
+dna_sequence = Seq("ATGCGTACGTAGCTAGCTAG")
+
+print("DNA Sequence Created:")
+print(dna_sequence)
+print()
+
+
+# =========================================================
+# STEP 2 : CREATE SeqRecord OBJECT
+# =========================================================
+
+record = SeqRecord(
+
+    dna_sequence,
+
+    id="seq1",
+
+    name="Example_Gene",
+
+    description="Example gene sequence",
+
+    annotations={
+
+        "molecule_type": "DNA",
+
+        "gene": "ExampleGene",
+
+        "function": "Hypothetical protein"
+
+    }
+
+)
+
+
+print("SeqRecord Object Created Successfully.\n")
+
+
+# =========================================================
+# STEP 3 : WRITE TO GENBANK FILE
+# =========================================================
+
+output_file = "example_output.gb"
+
+with open(output_file, "w") as file:
+
+    SeqIO.write(record, file, "genbank")
+
+
+print("GenBank file written successfully.\n")
+
+
+# =========================================================
+# STEP 4 : READ GENBANK FILE
+# =========================================================
+
+print("Reading GenBank File...\n")
+
+with open(output_file, "r") as file:
+
+    record_read = SeqIO.read(file, "genbank")
+
+    print(record_read)
+
+
+# =========================================================
+# EXPECTED OUTPUT
+# =========================================================
+
+# DNA Sequence Created:
+# ATGCGTACGTAGCTAGCTAG
+
+# SeqRecord Object Created Successfully.
+
+# GenBank file written successfully.
+
+# Reading GenBank File...
+
+# ID: seq1
+# Name: Example_Gene
+# Description: Example gene sequence
+
+
+# =========================================================
+# GENERATED FILE
+# =========================================================
+
+# This program automatically creates:
+
+# example_output.gb
+
+# inside the same folder.
+
+
+# =========================================================
+# COMMON ERRORS
+# =========================================================
+
+# ERROR:
+# No module named 'Bio'
+
+# FIX:
+# pip install biopython
+
+
+# ERROR:
+# Permission denied
+
+# FIX:
+# Close the .gb file if already opened.
+
+
+# =========================================================
+# END OF PROGRAM
+# =========================================================

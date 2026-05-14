@@ -1,0 +1,148 @@
+# =========================================================
+# PROGRAM 7
+# Pairwise Sequence Alignment using BioPython
+# =========================================================
+
+# =========================================================
+# WHAT TO INSTALL
+# =========================================================
+
+# Open CMD / PowerShell / VS Code Terminal
+
+# Run:
+
+# pip install biopython
+
+# OR
+
+# py -m pip install biopython
+
+
+# =========================================================
+# HOW TO RUN
+# =========================================================
+
+# STEP 1:
+# Save this file as:
+
+# final_7.py
+
+# STEP 2:
+# Run using:
+
+# python final_7.py
+
+# OR
+
+# py final_7.py
+
+
+# =========================================================
+# PROGRAM DESCRIPTION
+# =========================================================
+
+# This program:
+# 1. Defines two DNA sequences
+# 2. Performs pairwise sequence alignment
+# 3. Displays aligned sequences
+# 4. Displays alignment score
+
+
+# =========================================================
+# IMPORT MODULE
+# =========================================================
+
+from Bio.Align import PairwiseAligner
+
+
+# =========================================================
+# STEP 1 : DEFINE DNA SEQUENCES
+# =========================================================
+
+seq1 = "AGTACACTGGT"
+
+seq2 = "AGTACGCTGGT"
+
+print("Sequence 1:")
+print(seq1)
+print()
+
+print("Sequence 2:")
+print(seq2)
+print()
+
+
+# =========================================================
+# STEP 2 : CREATE ALIGNER OBJECT
+# =========================================================
+
+aligner = PairwiseAligner()
+
+print("PairwiseAligner Object Created.\n")
+
+
+# =========================================================
+# STEP 3 : PERFORM ALIGNMENT
+# =========================================================
+
+alignments = aligner.align(seq1, seq2)
+
+print("Alignment Performed Successfully.\n")
+
+
+# =========================================================
+# STEP 4 : DISPLAY ALIGNMENT
+# =========================================================
+
+print("ALIGNED SEQUENCES\n")
+
+print(alignments[0])
+
+
+# =========================================================
+# STEP 5 : DISPLAY ALIGNMENT SCORE
+# =========================================================
+
+print("Alignment Score:")
+
+print(alignments[0].score)
+
+
+# =========================================================
+# EXPECTED OUTPUT
+# =========================================================
+
+# Sequence 1:
+# AGTACACTGGT
+
+# Sequence 2:
+# AGTACGCTGGT
+
+# PairwiseAligner Object Created.
+
+# Alignment Performed Successfully.
+
+# ALIGNED SEQUENCES
+
+# target            0 AGTACA-CTGGT 11
+#                   0 |||||--||||| 12
+# query             0 AGTAC-GCTGGT 11
+
+# Alignment Score:
+# 10.0
+
+
+# =========================================================
+# COMMON ERRORS
+# =========================================================
+
+# ERROR:
+# No module named 'Bio'
+
+# FIX:
+# pip install biopython
+
+
+# =========================================================
+# END OF PROGRAM
+# =========================================================

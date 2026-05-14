@@ -1,0 +1,234 @@
+# =========================================================
+# PROGRAM 10
+# Fetch and Analyze Protein Structure using Bio.PDB
+# =========================================================
+
+# =========================================================
+# WHAT TO INSTALL
+# =========================================================
+
+# Open CMD / PowerShell / VS Code Terminal
+
+# Install BioPython
+
+# pip install biopython
+
+# OR
+
+# py -m pip install biopython
+
+
+# =========================================================
+# INTERNET REQUIRED
+# =========================================================
+
+# This program downloads protein structure data
+# from the Protein Data Bank (PDB).
+
+# Internet connection is REQUIRED.
+
+
+# =========================================================
+# HOW TO RUN
+# =========================================================
+
+# STEP 1:
+# Save this file as:
+
+# final_10.py
+
+# STEP 2:
+# Run using:
+
+# python final_10.py
+
+# OR
+
+# py final_10.py
+
+
+# =========================================================
+# PROGRAM DESCRIPTION
+# =========================================================
+
+# This program:
+# 1. Downloads a protein structure from PDB
+# 2. Parses the structure
+# 3. Selects a specific chain
+# 4. Displays residues in that chain
+# 5. Saves structure into a PDB file
+# 6. Can be visualized using PyMOL or Chimera
+
+
+# =========================================================
+# IMPORT MODULES
+# =========================================================
+
+from Bio import PDB
+
+
+# =========================================================
+# STEP 1 : CREATE PDB DOWNLOADER
+# =========================================================
+
+pdbl = PDB.PDBList()
+
+
+# =========================================================
+# STEP 2 : DOWNLOAD PDB FILE
+# =========================================================
+
+pdb_id = "1TUP"
+
+print("Downloading PDB Structure...\n")
+
+pdbl.retrieve_pdb_file(
+
+    pdb_id,
+
+    pdir=".",
+
+    file_format="pdb"
+
+)
+
+
+print("PDB File Downloaded Successfully.\n")
+
+
+# =========================================================
+# STEP 3 : PARSE PDB FILE
+# =========================================================
+
+parser = PDB.PDBParser(QUIET=True)
+
+pdb_file = f"pdb{pdb_id.lower()}.ent"
+
+structure = parser.get_structure(
+
+    "protein",
+
+    pdb_file
+
+)
+
+
+print("Protein Structure Parsed Successfully.\n")
+
+
+# =========================================================
+# STEP 4 : SELECT MODEL
+# =========================================================
+
+model = structure[0]
+
+print("Model Selected.\n")
+
+
+# =========================================================
+# STEP 5 : SELECT CHAIN
+# =========================================================
+
+chain = model["A"]
+
+print("Selected Chain:")
+print(chain.id)
+print()
+
+
+# =========================================================
+# STEP 6 : DISPLAY RESIDUES
+# =========================================================
+
+print("Residues in Chain A:\n")
+
+for residue in chain:
+
+    print(residue)
+
+
+# =========================================================
+# STEP 7 : SAVE STRUCTURE
+# =========================================================
+
+io = PDB.PDBIO()
+
+io.set_structure(structure)
+
+io.save("output.pdb")
+
+
+print("\nProtein Structure Saved as output.pdb")
+
+
+# =========================================================
+# GENERATED FILES
+# =========================================================
+
+# 1. pdb1tup.ent
+# 2. output.pdb
+
+
+# =========================================================
+# VISUALIZATION
+# =========================================================
+
+# To visualize 3D structure:
+# Open output.pdb using:
+
+# 1. PyMOL
+# 2. UCSF Chimera
+# 3. ChimeraX
+
+
+# =========================================================
+# EXPECTED OUTPUT
+# =========================================================
+
+# Downloading PDB Structure...
+
+# PDB File Downloaded Successfully.
+
+# Protein Structure Parsed Successfully.
+
+# Model Selected.
+
+# Selected Chain:
+# A
+
+# Residues in Chain A:
+
+# <Residue MET het=  resseq=1 icode= >
+# <Residue GLY het=  resseq=2 icode= >
+# ...
+
+
+# =========================================================
+# COMMON ERRORS
+# =========================================================
+
+# ERROR:
+# No module named 'Bio'
+
+# FIX:
+# pip install biopython
+
+
+# ERROR:
+# KeyError: 'A'
+
+# FIX:
+# Chain A may not exist in some proteins.
+# Use another chain name.
+
+
+# ERROR:
+# Internet connection error
+
+# FIX:
+# Check internet connection
+
+
+# =========================================================
+# END OF PROGRAM
+# =========================================================
