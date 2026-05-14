@@ -1,0 +1,179 @@
+BioPython Lab Programs
+
+This repository contains 10 BioPython lab programs.
+
+For every program:
+
+1. pX.py
+   - Directly executable Python program
+   - Contains only the runnable code
+
+2. pX.txt
+   - Contains:
+     • Program title
+     • Question
+     • Installation steps
+     • How to run
+     • Expected output
+     • Error fixes
+     • Explanation of the program
+
+
+--------------------------------------------------
+FILES DESCRIPTION
+--------------------------------------------------
+
+p1.py
+Question:
+Seq Class Operations using BioPython
+- Create DNA sequence
+- Slice sequence
+- Concatenate sequence
+- Transcribe DNA to RNA
+- Translate RNA to Protein
+
+
+p2.py
+Question:
+Read sequence data from a FASTA file and print:
+- Description/Header
+- Sequence
+
+
+p3.py
+Question:
+Write DNA sequence and annotations into
+GenBank format using SeqRecord
+
+
+p4.py
+Question:
+Convert FASTA file into GenBank format
+while preserving annotations
+
+
+p5.py
+Question:
+Create SeqRecord object and:
+- Add annotations
+- Add gene features
+- Modify annotations
+- Print updated SeqRecord
+
+
+p6.py
+Question:
+Use Entrez to fetch nucleotide sequence
+from NCBI database using accession number
+
+
+p7.py
+Question:
+Perform pairwise sequence alignment
+using BioPython PairwiseAligner
+
+
+p8.py
+Question:
+Perform Multiple Sequence Alignment
+using MUSCLE and save aligned sequences
+
+
+p9.py
+Question:
+Construct and visualize phylogenetic tree
+using Bio.Phylo
+
+
+p10.py
+Question:
+Fetch protein structure from Protein Data Bank
+(PDB) and analyze chains/residues
+
+
+--------------------------------------------------
+TXT FILES
+--------------------------------------------------
+
+p1.txt
+Contains complete details for Program 1
+
+p2.txt
+Contains complete details for Program 2
+
+p3.txt
+Contains complete details for Program 3
+
+p4.txt
+Contains complete details for Program 4
+
+p5.txt
+Contains complete details for Program 5
+
+p6.txt
+Contains complete details for Program 6
+
+p7.txt
+Contains complete details for Program 7
+
+p8.txt
+Contains complete details for Program 8
+
+p9.txt
+Contains complete details for Program 9
+
+p10.txt
+Contains complete details for Program 10
+
+
+--------------------------------------------------
+HOW TO RUN
+--------------------------------------------------
+
+Open terminal inside project folder.
+
+Run:
+
+python p1.py
+
+OR
+
+py p1.py
+
+Similarly:
+
+python p2.py
+python p3.py
+...
+python p10.py
+
+
+--------------------------------------------------
+REQUIREMENTS
+--------------------------------------------------
+
+Install BioPython:
+
+pip install biopython
+
+For Program 9:
+
+pip install matplotlib
+
+For Program 8:
+Download muscle.exe and keep it
+inside the same folder as p8.py
+
+
+--------------------------------------------------
+NOTES
+--------------------------------------------------
+
+- Some programs generate output files automatically
+- Internet connection required for:
+  • p6
+  • p10
+
+- Program 9 opens graphical phylogenetic tree window
+
+- Program 8 requires MUSCLE software
