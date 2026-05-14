@@ -1,143 +1,60 @@
+from Bio.PDB import PDBList, PDBParser
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 
-# =========================================================
-# IMPORT MODULES
-# =========================================================
+# Download PDB structure
+pdb_id = "1A3N"
 
-from Bio import PDB
-
-
-# =========================================================
-# STEP 1 : CREATE PDB DOWNLOADER
-# =========================================================
-
-pdbl = PDB.PDBList()
-
-
-# =========================================================
-# STEP 2 : DOWNLOAD PDB FILE
-# =========================================================
-
-pdb_id = "1TUP"
-
-print("Downloading PDB Structure...\n")
+pdbl = PDBList()
 
 pdbl.retrieve_pdb_file(
-
     pdb_id,
-
     pdir=".",
-
     file_format="pdb"
-
 )
 
-
-print("PDB File Downloaded Successfully.\n")
-
-
-# =========================================================
-# STEP 3 : PARSE PDB FILE
-# =========================================================
-
-parser = PDB.PDBParser(QUIET=True)
-
-pdb_file = f"pdb{pdb_id.lower()}.ent"
+# Parse PDB file
+parser = PDBParser(QUIET=True)
 
 structure = parser.get_structure(
-
-    "protein",
-
-    pdb_file
-
+    pdb_id,
+    f"pdb{pdb_id.lower()}.ent"
 )
 
+# Extract atomic coordinates
+atoms = []
 
-print("Protein Structure Parsed Successfully.\n")
+for model in structure:
+    for chain in model:
+        for residue in chain:
+            for atom in residue:
+                atoms.append(atom.coord)
 
+# Convert to NumPy array
+atoms = np.array(atoms)
 
-# =========================================================
-# STEP 4 : SELECT MODEL
-# =========================================================
+# Create 3D plot
+fig = plt.figure(figsize=(8, 6))
 
-model = structure[0]
+ax = fig.add_subplot(111, projection="3d")
 
-print("Model Selected.\n")
+# Plot atoms
+ax.scatter(
+    atoms[:, 0],
+    atoms[:, 1],
+    atoms[:, 2],
+    c="blue",
+    marker="o",
+    s=10
+)
 
+# Labels and title
+ax.set_title(f"3D Structure of {pdb_id}")
 
-# =========================================================
-# STEP 5 : SELECT CHAIN
-# =========================================================
+ax.set_xlabel("X-axis")
+ax.set_ylabel("Y-axis")
+ax.set_zlabel("Z-axis")
 
-chain = model["A"]
-
-print("Selected Chain:")
-print(chain.id)
-print()
-
-
-# =========================================================
-# STEP 6 : DISPLAY RESIDUES
-# =========================================================
-
-print("Residues in Chain A:\n")
-
-for residue in chain:
-
-    print(residue)
-
-
-# =========================================================
-# STEP 7 : SAVE STRUCTURE
-# =========================================================
-
-io = PDB.PDBIO()
-
-io.set_structure(structure)
-
-io.save("output.pdb")
-
-
-print("\nProtein Structure Saved as output.pdb")
-
-
-# =========================================================
-# GENERATED FILES
-# =========================================================
-
-# 1. pdb1tup.ent
-# 2. output.pdb
-
-
-# =========================================================
-# VISUALIZATION
-# =========================================================
-
-# To visualize 3D structure:
-# Open output.pdb using:
-
-# 1. PyMOL
-# 2. UCSF Chimera
-# 3. ChimeraX
-
-
-# =========================================================
-# EXPECTED OUTPUT
-# =========================================================
-
-# Downloading PDB Structure...
-
-# PDB File Downloaded Successfully.
-
-# Protein Structure Parsed Successfully.
-
-# Model Selected.
-
-# Selected Chain:
-# A
-
-# Residues in Chain A:
-
-# <Residue MET het=  resseq=1 icode= >
-# <Residue GLY het=  resseq=2 icode= >
-# ...
-
+# Display plot
+plt.show()
