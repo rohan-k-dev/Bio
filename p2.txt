@@ -1,0 +1,56 @@
+# =========================================================
+# PROGRAM 2
+# Reading Sequence Data from a FASTA File using BioPython
+# =========================================================
+
+# =========================================================
+# INSTALL COMMAND
+# =========================================================
+
+# pip install biopython
+
+# =========================================================
+# IMPORT MODULE
+# =========================================================
+
+from Bio import SeqIO
+
+
+# =========================================================
+# STEP 1 : CREATE FASTA FILE
+# =========================================================
+
+fasta_file = "example.fasta"
+
+with open(fasta_file, "w") as file:
+
+    file.write(">seq1 This is the description for sequence 1\n")
+    file.write("ATGCATGCGTACGTAGCTA\n\n")
+
+    file.write(">seq2 This is the description for sequence 2\n")
+    file.write("GCTAGCTAGCTAGCTA\n")
+
+
+print("FASTA file created successfully.\n")
+
+
+# =========================================================
+# STEP 2 : READ FASTA FILE
+# =========================================================
+
+print("Reading FASTA File...\n")
+
+for record in SeqIO.parse(fasta_file, "fasta"):
+
+    print("Description:")
+    print(record.description)
+
+    print("Sequence:")
+    print(record.seq)
+
+    print()
+
+
+# =========================================================
+# END OF PROGRAM
+# =========================================================
