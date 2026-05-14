@@ -1,5 +1,6 @@
 from Bio import AlignIO
 import subprocess
+import os
 
 # Define sequences
 seq1 = """>seq1
@@ -20,10 +21,8 @@ with open("fasta8.fasta", "w") as f:
     f.write(seq2)
     f.write(seq3)
 
-# MUSCLE executable path
-# Keep muscle.exe in same folder as this Python file
-
-muscle_exe = "muscle.exe"
+# Full path of muscle.exe
+muscle_exe = os.path.join(os.getcwd(), "muscle.exe")
 
 # Run MUSCLE alignment
 subprocess.run([
@@ -32,12 +31,11 @@ subprocess.run([
     "-output", "aligned_sequences.fasta"
 ], check=True)
 
-# Read alignment result
+# Read alignment
 alignment = AlignIO.read("aligned_sequences.fasta", "fasta")
 
-# Print alignment
+# Print result
 print(alignment)
-
 
 """
 ===============================
